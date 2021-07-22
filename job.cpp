@@ -1,4 +1,5 @@
 #include <sstream>
+#include <iostream>
 
 // Local include
 #include "job.h"
@@ -7,10 +8,7 @@
 
 Job::Job(const S& sLine)
 {
-    // Store the raw line
-    _sLine = sLine;
-
-    // Get the job global index
+    // Get the global job index
     _inx = read_integer(sLine, 4);
 
     // Get the job name
@@ -20,15 +18,20 @@ Job::Job(const S& sLine)
     _employee = read_string(sLine, find_comma(sLine)+1);
 }
 
-Job::~Job()
+
+Job::Job(const S& sPosition, const uint inx)
 {
+    // Stores global job index
+    _inx = inx;
+
+    // Store job position
+    _position = sPosition;
+    std::cout << "building job with position `" << sPosition << "`" << std::endl;
 
 }
 
-S Job::get_db_line() const
-{
-    return _sLine;
-}
+Job::~Job(){}
+
 
 S Job::get_position_name() const
 {
@@ -55,6 +58,21 @@ bool Job::is_closed() const
     return (_employee != "");
 }
 
+void Job::candidate(
+    const SPtr_Applicant candidate,
+    const S& status)
+{
+    // Store status of the given candidate
+    _applicants[candidate] = status;
+
+    // If this candidate was accepted, make him an employee for this job
+    if(status == "accepted")
+    {
+        _employee = candidate->get_name();
+    }
+}
+
+
 S Job::print(const S& sTab) const
 {
     std::ostringstream out;
@@ -66,14 +84,20 @@ S Job::print(const S& sTab) const
     }
     else
     {
-        const auto& applicants = get_applicants();
-        out << sTab << "job is open, applicants (" << applicants.size() << "): " << std::endl;
-        for(auto const& [applicant, status] : applicants)
+        out << sTab << "job is open, applicants (" << _applicants.size() << "): " << std::endl;
+        for(auto const& [applicant, status] : _applicants)
         {
-            out << sTab << sTab << applicant->get_name() << std::endl;
+            out << sTab << sTab << applicant->get_name() << "  status: `" << status << "`" << std::endl;
         }
     }
 
+    return out.str();
+}
+
+S Job::build_db_line() const
+{
+    std::ostringstream out;
+    out << "job#" << get_inx() << "=" << get_position_name() << ",";
     return out.str();
 }
 

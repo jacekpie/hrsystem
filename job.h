@@ -12,11 +12,8 @@
 class Applicant;
 typedef std::shared_ptr<Applicant> SPtr_Applicant;
 
-// Status of an applicant for a job
-enum Status {applied, interviewed, rejected, accepted};
-
-// Map with status of applicants, used by jobs
-typedef std::map<SPtr_Applicant, Status> Applicants;
+// Map with status of applicants
+typedef std::map<SPtr_Applicant, S> Applicants;
 
 // ----------------------------------------------
 //
@@ -25,16 +22,13 @@ class Job
 {
     private:
 
-        // Raw line from the database file
-        S _sLine;
-
         //
         S _position;
 
         // global index of this job in HR system
         uint _inx;
 
-        // map applicant -> status for this job
+        // Map with status of applicants
         Applicants _applicants;
 
         // employee - this string will not be empty when this job will be filled
@@ -43,19 +37,26 @@ class Job
     public:
 
         // Constructor and Destructor
-        Job(const S& sLine);
+        Job(const S& sLine);                    // this is used when a job is read from a database
+        Job(const S& sName, const uint _inx);   // this is used when a job is created manually
         virtual ~Job();
 
-        // Interface:
-        S get_db_line() const;
+        // Data interface:
         S get_position_name() const;
         uint get_inx() const;
         const Applicants& get_applicants() const;
         S get_employee() const;
         bool is_closed() const;
 
-        //
+        // Add / change status of a candidate for this job
+        void candidate(const SPtr_Applicant candidate, const S& status);
+
+        // Build a string with info about this job
         S print(const S& sTab) const;
+
+        // Build a string for database
+        S build_db_line() const;
+
 };
 typedef std::shared_ptr<Job> SPtr_Job;
 typedef std::vector<SPtr_Job> VJobs;
