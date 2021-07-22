@@ -10,7 +10,7 @@
 // Local includes
 #include "string_operations.h"
 #include "job.h"
-#include "applicant.h"
+#include "candidate.h"
 #include "hr.h"
 
 

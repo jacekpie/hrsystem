@@ -3,7 +3,7 @@
 CPPFILES = \
 	main.cpp \
 	job.cpp \
-	applicant.cpp \
+	candidate.cpp \
 	hr.cpp \
 	string_operations.cpp
 

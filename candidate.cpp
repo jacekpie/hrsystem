@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Local include
-#include "applicant.h"
+#include "candidate.h"
 
 SPtr_Job Applicant::_find_job_by_id(const VJobs& vJobs, const uint job_id)
 {

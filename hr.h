@@ -4,7 +4,7 @@
 
 // Local include
 #include "job.h"
-#include "applicant.h"
+#include "candidate.h"
 
 
 // ----------------------------------------------
