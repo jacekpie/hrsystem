@@ -2,8 +2,8 @@
 #include <memory>
 #include <vector>
 
-#ifndef APP_H
-#define APP_H
+#ifndef CANDIDATE_H
+#define CANDIDATE_H
 
 // Local include
 #include "string_operations.h"
@@ -12,11 +12,13 @@
 // Map with status of jobs
 typedef std::map<SPtr_Job, S> Jobs;
 
-// ----------------------------------------------
-//
-// ----------------------------------------------
-class Applicant
+
+class Candidate
 {
+    // ----------------------------------------------
+    // This class defines job candidate
+    // ----------------------------------------------
+
     private:
 
         // candidate's full name
@@ -28,7 +30,7 @@ class Applicant
         // Map with status of jobs
         Jobs _jobs;
 
-        // job - this string will not be empty when this applicant will get a job
+        // job - this  will not be nullptr when this candidate will get a job
         SPtr_Job _job;
 
         // Find job by id from a given list of jobs
@@ -37,9 +39,9 @@ class Applicant
     public:
 
         // Constructor and destructor
-        Applicant(const S& sLine, const VJobs& jobs); // this is used when a candidate is read from a database
-        Applicant(const S& sLine, const uint inx);    // this is used when a candidate is created manually
-        virtual ~Applicant();
+        Candidate(const S& sLine, const VJobs& jobs); // this is used when a candidate is read from a database
+        Candidate(const S& sLine, const uint inx);    // this is used when a candidate is created manually
+        virtual ~Candidate();
 
         // Interface:
         S get_db_line() const;
@@ -58,7 +60,7 @@ class Applicant
         // Build a string for database
         S build_db_line() const;
 };
-typedef std::shared_ptr<Applicant> SPtr_Applicant;
-typedef std::vector<SPtr_Applicant> VApplicants;
+typedef std::shared_ptr<Candidate> SPtr_Candidate;
+typedef std::vector<SPtr_Candidate> VCandidates;
 
-#endif // APP_H
+#endif // CANDIDATE_H

@@ -21,8 +21,8 @@ void HR::_process_db_line(const S& sLine)
     }
     else if(is_line_starting(sLine, "candidate"))
     {
-        const auto applicant = std::make_shared<Applicant>(sLine, _vJobs);
-        _vApplicants.push_back(applicant);
+        const auto candidate = std::make_shared<Candidate>(sLine, _vJobs);
+        _vCandidates.push_back(candidate);
     }
 }
 
@@ -30,7 +30,7 @@ void HR::_process_db_line(const S& sLine)
 void HR::_db_read_postprocessing()
 {
     // Loop over all candidates and update candidates jobs info
-    for(const auto candidate: _vApplicants)
+    for(const auto candidate: _vCandidates)
     {
         for(auto const& [job, status] : candidate->get_jobs())
         {
@@ -61,19 +61,19 @@ uint HR::new_job(const S sPosition)
 uint HR::new_candidate(const S sName)
 {
     // Get the current number of candidates. This will be id of the new candidate
-    const uint inx = _vApplicants.size();
+    const uint inx = _vCandidates.size();
 
     // Build a new candidate
-    const auto candidate = std::make_shared<Applicant>(sName, inx);
-    _vApplicants.push_back(candidate);
+    const auto candidate = std::make_shared<Candidate>(sName, inx);
+    _vCandidates.push_back(candidate);
 
     // Function returns global id of the created candidate
     return inx;
 }
 
-SPtr_Applicant HR::find_candidate_by_id(const uint id) const
+SPtr_Candidate HR::find_candidate_by_id(const uint id) const
 {
-    for(const auto candidate: _vApplicants)
+    for(const auto candidate: _vCandidates)
     {
         if(candidate->get_inx() == id)
         {
@@ -85,9 +85,9 @@ SPtr_Applicant HR::find_candidate_by_id(const uint id) const
     return nullptr;
 }
 
-SPtr_Applicant HR::find_candidate_by_name(const S& sName) const
+SPtr_Candidate HR::find_candidate_by_name(const S& sName) const
 {
-    for(const auto candidate: _vApplicants)
+    for(const auto candidate: _vCandidates)
     {
         if(candidate->get_name() == sName)
         {
@@ -175,14 +175,13 @@ void HR::store_db(const S sDBFile)
     dbFile << " " << std::endl;
 
     // Write all candidates to DB file
-    for(const auto candidate: _vApplicants)
+    for(const auto candidate: _vCandidates)
     {
         dbFile << candidate->build_db_line() << std::endl;
     }
 
     dbFile.close();
 }
-
 
 
 void HR::print_all() const
@@ -194,8 +193,17 @@ void HR::print_all() const
 
 void HR::print_jobs() const
 {
+    // IOf there are no jobs, print info about it, and quit
+    const int iJobs = _vJobs.size();
+    if(iJobs == 0)
+    {
+        std::cout << "no jobs found!" << std::endl;
+        return;
+    }
+
+    // Loop over all the jobs
     std::cout << std::endl;
-    std::cout << "All jobs  (" << _vJobs.size() << "):" << std::endl;
+    std::cout << "All jobs  (" << iJobs << "):" << std::endl;
     for(const auto job: _vJobs)
     {
         std::cout << job->print(_sTab) << std::endl;
@@ -205,11 +213,20 @@ void HR::print_jobs() const
 
 void HR::print_candidates() const
 {
-    std::cout << std::endl << std::endl;
-    std::cout << "All applicants (" << _vApplicants.size() << "):" << std::endl;
-    for(const auto applicant: _vApplicants)
+    // IOf there are no candidates, print info about it, and quit
+    const int iCandidates = _vCandidates.size();
+    if(iCandidates == 0)
     {
-        std::cout << applicant->print(_sTab) << std::endl;
+        std::cout << "no candidates found!" << std::endl;
+        return;
+    }
+
+    // Loop pverall the candidates
+    std::cout << std::endl << std::endl;
+    std::cout << "All candidates (" << _vCandidates.size() << "):" << std::endl;
+    for(const auto candidate: _vCandidates)
+    {
+        std::cout << candidate->print(_sTab) << std::endl;
     }
     std::cout << std::endl;
 }

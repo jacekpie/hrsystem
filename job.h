@@ -9,11 +9,11 @@
 #include "string_operations.h"
 
 // Forward declaration
-class Applicant;
-typedef std::shared_ptr<Applicant> SPtr_Applicant;
+class Candidate;
+typedef std::shared_ptr<Candidate> SPtr_Candidate;
 
-// Map with status of applicants
-typedef std::map<SPtr_Applicant, S> Applicants;
+// Map with status of candidates
+typedef std::map<SPtr_Candidate, S> Candidates;
 
 // ----------------------------------------------
 //
@@ -28,8 +28,8 @@ class Job
         // global index of this job in HR system
         uint _inx;
 
-        // Map with status of applicants
-        Applicants _applicants;
+        // Map with status of candidates
+        Candidates _candidates;
 
         // employee - this string will not be empty when this job will be filled
         S _employee;
@@ -44,12 +44,12 @@ class Job
         // Data interface:
         S get_position_name() const;
         uint get_inx() const;
-        const Applicants& get_applicants() const;
+        const Candidates& get_candidates() const;
         S get_employee() const;
         bool is_closed() const;
 
         // Add / change status of a candidate for this job
-        void candidate(const SPtr_Applicant candidate, const S& status);
+        void candidate(const SPtr_Candidate candidate, const S& status);
 
         // Build a string with info about this job
         S print(const S& sTab) const;

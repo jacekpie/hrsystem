@@ -2,6 +2,7 @@
 # SOURCE FILES
 CPPFILES = \
 	main.cpp \
+	commands.cpp \
 	job.cpp \
 	candidate.cpp \
 	hr.cpp \
@@ -10,7 +11,7 @@ CPPFILES = \
 OBJECTS=$(CPPFILES:.cpp=.o)
 
 # COMPILATION SETTINGS
-CC = g++-9.1.0
+CC = g++-9
 OPTIMISATION = -O2 -Wall
 CPP_VERSION = -std=c++17
 CFLAGS = -c $(OPTIMISATION) $(CPP_VERSION)

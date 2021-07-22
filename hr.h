@@ -21,7 +21,7 @@ class HR
         VJobs _vJobs;
 
         // List of candidates in the HR system
-        VApplicants _vApplicants;
+        VCandidates _vCandidates;
 
         // Read database functions
         void _process_db_line(const S& sLine);
@@ -41,8 +41,8 @@ class HR
         uint new_candidate(const S sName);
 
         // Find candidate
-        SPtr_Applicant find_candidate_by_id(const uint id) const;
-        SPtr_Applicant find_candidate_by_name(const S& sName) const;
+        SPtr_Candidate find_candidate_by_id(const uint id) const;
+        SPtr_Candidate find_candidate_by_name(const S& sName) const;
 
         // Find job
         SPtr_Job find_job_by_id(const uint id) const;

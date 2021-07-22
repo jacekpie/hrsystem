@@ -3,7 +3,7 @@
 
 // Local include
 #include "job.h"
-#include "applicant.h"
+#include "candidate.h"
 
 
 Job::Job(const S& sLine)
@@ -43,9 +43,9 @@ uint Job::get_inx() const
     return _inx;
 }
 
-const Applicants& Job::get_applicants() const
+const Candidates& Job::get_candidates() const
 {
-    return _applicants;
+    return _candidates;
 }
 
 S Job::get_employee() const
@@ -59,11 +59,11 @@ bool Job::is_closed() const
 }
 
 void Job::candidate(
-    const SPtr_Applicant candidate,
+    const SPtr_Candidate candidate,
     const S& status)
 {
     // Store status of the given candidate
-    _applicants[candidate] = status;
+    _candidates[candidate] = status;
 
     // If this candidate was accepted, make him an employee for this job
     if(status == "accepted")
@@ -84,10 +84,10 @@ S Job::print(const S& sTab) const
     }
     else
     {
-        out << sTab << "job is open, applicants (" << _applicants.size() << "): " << std::endl;
-        for(auto const& [applicant, status] : _applicants)
+        out << sTab << "job is open, candidates (" << _candidates.size() << "): " << std::endl;
+        for(auto const& [candidate, status] : _candidates)
         {
-            out << sTab << sTab << applicant->get_name() << "  status: `" << status << "`" << std::endl;
+            out << sTab << sTab << candidate->get_name() << "  status: `" << status << "`" << std::endl;
         }
     }
 
