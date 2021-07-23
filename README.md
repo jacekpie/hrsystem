@@ -38,12 +38,10 @@ It will print all the possible commands.
 ### Example scenario
 
 1. HR wants to build a new job: <br />
-------------------------
 
 $ ./run_in_docker.sh new-job Software Developer <br />
 
 2. First candidate applies <br />
-------------------------
 
 $ ./run_in_docker.sh new-candidate Anna Hack <br />
 $ ./run_in_docker.sh apply Anna Hack for Software Developer <br />
