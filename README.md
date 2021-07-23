@@ -90,8 +90,8 @@ Remember, you can always print the status of the database running: <br />
 
 $ ./run_in_docker.sh show-all <br />
 
-Also remeber, you can always use index of job / candidata instead od position name / name, using @. <br />
-E.G for step 7: <br />
+Also remeber, you can always use index of job / candidate instead od position name / name, using @. <br />
+e.g for step 7: <br />
 $ ./run_in_docker.sh interviewed @0 for @0 <br />
 
 
