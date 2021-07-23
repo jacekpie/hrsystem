@@ -41,48 +41,48 @@ It will print all the possible commands.
 
 $ ./run_in_docker.sh new-job Software Developer <br />
 
-2. First candidate applies <br />
+2. First candidate applies: <br />
 
 $ ./run_in_docker.sh new-candidate Anna Hack <br />
 $ ./run_in_docker.sh apply Anna Hack for Software Developer <br />
 
-3. Second candidate applies <br />
+3. Second candidate applies: <br />
 
 $ ./run_in_docker.sh new-candidate Jimmy Page <br />
 $ ./run_in_docker.sh apply Jimmy Page for Software Developer <br />
 
-4. Third candidate applies <br />
+4. Third candidate applies: <br />
 
 $ ./run_in_docker.sh new-candidate Joe Doe <br />
 $ ./run_in_docker.sh apply Joe Doe for Software Developer <br />
 
-5. Second candidate it immediately rejected, does not have requested education. <br />
+5. Second candidate is immediately rejected, does not have requested education: <br />
 
 $ ./run_in_docker.sh reject Jimmy Page for Software Developer <br />
 
-6. In the meantime another job offer comes up <br />
+6. In the meantime another job offer comes up: <br />
 
 $ ./run_in_docker.sh new-job Data Scientist <br />
 
-7. First candidate is interviewed for 1st job <br />
+7. First candidate is interviewed for 1st job: <br />
 
 $ ./run_in_docker.sh interviewed Anna Hack for Software Developer <br />
 
-8. Third candidate is interviewed for 1st job <br />
+8. Third candidate is interviewed for 1st job: <br />
 
 $ ./run_in_docker.sh interviewed Joe Doe for Software Developer <br />
 
-9. Third candidate is rejected, first candidate gets the job <br />
+9. Third candidate is rejected, first candidate gets the job: <br />
 
 $ ./run_in_docker.sh reject Joe Doe for Software Developer <br />
 $ ./run_in_docker.sh accept Anna Hack for Software Developer <br />
 
-10. Fourth candidate applies to the second job <br />
+10. Fourth candidate applies to the second job: <br />
 
 $ ./run_in_docker.sh new-candidate Sophia Calanthe <br />
 $ ./run_in_docker.sh apply Sophia Calanthe for Data Scientist <br />
 
-11. Fourth candidate is accepted. <br />
+11. Fourth candidate is accepted: <br />
 
 $ ./run_in_docker.sh accept Sophia Calanthe for Data Scientist <br />
 
