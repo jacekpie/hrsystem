@@ -1,3 +1,7 @@
+/*
+ * This file contains definition of auxiliary functions which handle string operations.
+ */
+
 #include <string>
 #include <vector>
 

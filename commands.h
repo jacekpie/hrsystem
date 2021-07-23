@@ -1,3 +1,6 @@
+/*
+ * This file contains definition of functions which handle user commands.
+ */
 
 // Local includes
 #include "hr.h"

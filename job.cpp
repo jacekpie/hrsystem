@@ -1,3 +1,7 @@
+/*
+ * This file contains implementation of a job class.
+ */
+
 #include <sstream>
 #include <iostream>
 
@@ -8,6 +12,9 @@
 
 Job::Job(const S& sLine)
 {
+//
+// Constructor - used when reading a line from database
+//
     // Get the global job index
     _inx = read_integer(sLine, 4);
 
@@ -21,13 +28,14 @@ Job::Job(const S& sLine)
 
 Job::Job(const S& sPosition, const uint inx)
 {
+//
+// Constructor - used when user builds a new job.
+//
     // Stores global job index
     _inx = inx;
 
     // Store job position
     _position = sPosition;
-    std::cout << "building job with position `" << sPosition << "`" << std::endl;
-
 }
 
 Job::~Job(){}
@@ -55,6 +63,10 @@ S Job::get_employee() const
 
 bool Job::is_closed() const
 {
+//
+// Returns true is this job is closed.
+//
+
     return (_employee != "");
 }
 
@@ -62,6 +74,10 @@ void Job::candidate(
     const SPtr_Candidate candidate,
     const S& status)
 {
+//
+// Add a candidate to a job.
+//
+
     // Store status of the given candidate
     _candidates[candidate] = status;
 
@@ -75,6 +91,10 @@ void Job::candidate(
 
 S Job::print(const S& sTab) const
 {
+//
+// Print all the data about the job
+//
+
     std::ostringstream out;
     out << "job #" << get_inx();
     out << "  `" << get_position_name() << "`" << std::endl;
@@ -96,6 +116,9 @@ S Job::print(const S& sTab) const
 
 S Job::build_db_line() const
 {
+//
+// Build a txt line for database describing the candidate.
+//
     std::ostringstream out;
     out << "job#" << get_inx() << "=" << get_position_name() << ",";
     return out.str();

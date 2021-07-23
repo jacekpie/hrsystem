@@ -1,3 +1,7 @@
+/*
+ * This file contains definition of a class with candidate.
+ */
+
 #include <map>
 #include <memory>
 #include <vector>

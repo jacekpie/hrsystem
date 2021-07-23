@@ -1,3 +1,7 @@
+/*
+ * This file contains implementation of functions which handle user commands.
+ */
+
 #include <iostream>
 
 // Local includes
@@ -9,6 +13,9 @@
 
 void print_help()
 {
+//
+// Print helps to std out.
+//
     std::cout << "Usage: hrsystem [command] {command options} " << std::endl;
     std::cout << "Commands: " << std::endl << std::endl;
     std::cout << "To print status of the database" << std::endl;
@@ -44,6 +51,20 @@ void print_help()
 
 SPtr_Candidate find_candidate_from_command(const int argc, char* argv[], SPtr_HR hr)
 {
+//
+// This function finds pointer to a candidate from HR system, based on his name / id.
+//
+// It is used by commands   apply|interviewed|reject|accept.
+//
+// Candidate in these commands is placed before `for` keyword, e.g.:
+//
+//  $./hrsystem  apply  Joe Doe for Software developer
+//  $./hrsystem  apply  @0 for Software developer        <-- find candidate with gloval id `0`
+//
+// If candidate `Joe Doe` exists in the HR system it will return a pointer to Joe Doe from the database.
+// Otherwise, function returns nullptr.
+//
+
     // Find candidate
     SPtr_Candidate candidate = nullptr;
     const S sCandidate = connect_arguments_until(argc, argv, 2, "for");
@@ -84,6 +105,21 @@ SPtr_Candidate find_candidate_from_command(const int argc, char* argv[], SPtr_HR
 
 SPtr_Job find_job_from_command(const int argc, char* argv[], SPtr_HR hr)
 {
+//
+// This function finds pointer to a job from HR system, based on job name/ id given in user command.
+//
+// It is used by commands   apply|interviewed|reject|accept.
+//
+// Job in these commands job is placed after `for` keyword, e.g.:
+//
+//  $./hrsystem  apply  Joe Doe for Software developer
+//  $./hrsystem  apply  Joe Doe for @0         <-- find job with global id `0`
+//
+// If candidate `Software developer` exists in the HR system it will return a pointer to `Software developer`
+// job from the database.
+// Otherwise, function returns nullptr.
+//
+
     // Find job
     SPtr_Job job = nullptr;
 
@@ -130,12 +166,19 @@ SPtr_Job find_job_from_command(const int argc, char* argv[], SPtr_HR hr)
 
 void command_new_job(const int argc, char* argv[], SPtr_HR hr)
 {
+//
+// Service for `new-job` command
+//
     if(argc < 3)
     {
         std::cout << "ERROR: no position name given!" << std::endl;
         return;
     }
+
+    // Connect arguments, so that `new-job Software Developer` will have position name `Software-Developer``
     const S sJobName = connect_arguments(argc, argv, 2);
+
+    // Creates new job, gets its id and prints info that the job was created
     const uint inx = hr->new_job(sJobName);
     std::cout << "new job #" << inx << "  `" << sJobName << "` was created!" << std::endl;
 }
@@ -143,12 +186,19 @@ void command_new_job(const int argc, char* argv[], SPtr_HR hr)
 
 void command_new_candidate(const int argc, char* argv[], SPtr_HR hr)
 {
+//
+// Service for `new-candidate` command
+//
     if(argc < 3)
     {
         std::cout << "ERROR: no candidate name given!" << std::endl;
         return;
     }
+
+    // Connect arguments, so that `new-candidate Joe Doe` will have position name `Joe Doer``
     const S sName = connect_arguments(argc, argv, 2);
+
+    // Creates new andidate, gets its id and prints info that the andidate was created
     const uint inx = hr->new_candidate(sName);
     std::cout << "new candidate #" << inx << "  `" << sName << "` was created!" << std::endl;
 
@@ -156,13 +206,17 @@ void command_new_candidate(const int argc, char* argv[], SPtr_HR hr)
 
 void command_job_status(const int argc, char* argv[], SPtr_HR hr, const S& sStatus)
 {
+//
+// Service for apply|interviewed|reject|accept. commands
+//
+
     if(argc < 5)
     {
         std::cout << "ERROR: too few arguments!" << std::endl;
         return;
     }
 
-    // Word for must be in
+    // Word `for` must be in command
     if(find_word_among_arguments("for", argc, argv, 2) < 0)
     {
         std::cout << "wrong syntax! word `for` is missing!" << std::endl;
@@ -194,7 +248,7 @@ void command_job_status(const int argc, char* argv[], SPtr_HR hr, const S& sStat
     job->candidate(candidate, sStatus);
     candidate->job_status(job, sStatus);
 
-    // Inform
+    // Inform user - print to console
     std::cout << "Candidate `" << candidate->get_name() << "` ";
     std::cout << "status for job `" << job->get_position_name() << "` ";
     std::cout << "is now `" << sStatus << "`" << std::endl;
@@ -203,6 +257,10 @@ void command_job_status(const int argc, char* argv[], SPtr_HR hr, const S& sStat
 
 void command_service(const int argc, char* argv[], SPtr_HR hr)
 {
+//
+// Main command service entry point.
+//
+
     // switch to a proper command
     const S command = argv[1];
     if(command == "help")

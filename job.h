@@ -1,3 +1,7 @@
+/*
+ * This file contains definition of a class with job.
+ */
+
 #include <map>
 #include <memory>
 #include <vector>
@@ -15,14 +19,11 @@ typedef std::shared_ptr<Candidate> SPtr_Candidate;
 // Map with status of candidates
 typedef std::map<SPtr_Candidate, S> Candidates;
 
-// ----------------------------------------------
-//
-// ----------------------------------------------
 class Job
 {
     private:
 
-        //
+        // position name
         S _position;
 
         // global index of this job in HR system

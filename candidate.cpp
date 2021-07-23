@@ -1,3 +1,7 @@
+/*
+ * This file contains implementation of a candidate class.
+ */
+
 #include <sstream>
 #include <iostream>
 
@@ -6,6 +10,9 @@
 
 SPtr_Job Candidate::_find_job_by_id(const VJobs& vJobs, const uint job_id)
 {
+//
+// Function searches for a job by job's id in the given vector with jobs.
+//
     for(const auto job: vJobs)
     {
         if(job->get_inx() == job_id)
@@ -21,6 +28,11 @@ SPtr_Job Candidate::_find_job_by_id(const VJobs& vJobs, const uint job_id)
 
 Candidate::Candidate(const S& sLine, const VJobs& vJobs)
 {
+//
+// Constructor - used when candiate is read from the database
+//
+// Vector vJobs contains all the jobs in HR system.
+//
     // Get the job global index
     _inx = read_integer(sLine, 10);
 
@@ -55,12 +67,13 @@ Candidate::Candidate(const S& sLine, const VJobs& vJobs)
             break;
         }
     }
-
 }
 
 Candidate::Candidate(const S& sName, const uint inx)
 {
-    // this is used when a candidate is created manually
+//
+// Constructor - used when user builds a new job.
+//
 
     // Store its id
     _inx = inx;
@@ -72,10 +85,7 @@ Candidate::Candidate(const S& sName, const uint inx)
     _job = nullptr;
 }
 
-Candidate::~Candidate()
-{
-
-}
+Candidate::~Candidate(){}
 
 
 S Candidate::get_name() const
@@ -105,6 +115,10 @@ const bool Candidate::is_our_employee() const
 
 void Candidate::job_status(SPtr_Job job, const S& sStatus)
 {
+//
+// Change candidate status for a given job.
+//
+
     _jobs[job] = sStatus;
 
     // If this candidate was accepted, mark that this is candidate's job
@@ -117,6 +131,10 @@ void Candidate::job_status(SPtr_Job job, const S& sStatus)
 
 S Candidate::print(const S& sTab) const
 {
+//
+// Print all the data about the job
+//
+
     std::ostringstream out;
 
     // Print basic candidate data
@@ -145,6 +163,10 @@ S Candidate::print(const S& sTab) const
 
 S Candidate::build_db_line() const
 {
+//
+// Build a txt line for database describing the candidate.
+//
+
     std::ostringstream out;
     out << "candidate#" << get_inx() << "=" << get_name() << ",";
     for(auto const& [job, status] : _jobs)

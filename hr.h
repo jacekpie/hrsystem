@@ -1,3 +1,6 @@
+/*
+ * This file contains definition of the class with main HR system.
+ */
 
 #ifndef HR_H
 #define HR_H
@@ -7,9 +10,6 @@
 #include "candidate.h"
 
 
-// ----------------------------------------------
-//
-// ----------------------------------------------
 class HR
 {
     private:

@@ -1,11 +1,20 @@
+/*
+ * This file contains implementation of auxiliary functions which handle string operations.
+ */
+
 #include <sstream>
 
+// Local include
 #include "string_operations.h"
 
 uint read_integer(
     const S& sLine,
     const uint inx)
 {
+//
+//  Read interger from string starting from a given index.
+//  Return 0 uf no integers found.
+//
     if(inx < 0)
     {
         return 0;
@@ -40,6 +49,11 @@ S read_string(
     const S& sLine,
     const uint inx)
 {
+//
+//  Read substring from a given string starting from a given index.
+//  The substring may contin only - letters, digits and space.
+//
+
     if(inx < 0)
     {
         return "";
@@ -64,6 +78,9 @@ S read_string(
 
 std::vector<S> read_comma_separated(const S&  sLine, const uint inx)
 {
+//
+//  Read comma separated substring from aa given string, starting at a given idnex.
+//
     std::vector<S> vOut;
     if(inx < 0)
     {
@@ -108,6 +125,10 @@ std::size_t find_question_mark(const S& sLine)
 
 bool is_line_starting(const S& sLine, const S& sStart)
 {
+//
+//  Check if a given string line starts with a given start string.
+//
+
     const int iLen = sLine.size();
     const int iLenStart = sStart.size();
     if(iLen < iLenStart)
@@ -121,6 +142,10 @@ bool is_line_starting(const S& sLine, const S& sStart)
 
 int find_word_among_arguments(const S& sWord, const int argc, char* argv[], const int inxStart)
 {
+//
+//  Check if a given word is among user arguments, starting from a argument with a given index.
+//
+
     for(int inx = inxStart; inx < argc; inx++)
     {
         if(argv[inx] == sWord)
@@ -134,6 +159,10 @@ int find_word_among_arguments(const S& sWord, const int argc, char* argv[], cons
 
 bool is_string_a_number(const S& sLine)
 {
+//
+//  Check if a given string contains only numbers.
+//
+
     if(sLine.size() == 0)
     {
         return false;
@@ -151,6 +180,13 @@ bool is_string_a_number(const S& sLine)
 
 S connect_arguments(const int argc, char* argv[], const int inxStart)
 {
+//
+//  Connect arguments given by user starting with argument with a given index.
+//  Space is added between arguments.
+//  e.g.:
+//        ./hrsystem  Joe Doe    start: 1  ---->   "Joe Doe"
+//
+
     std::ostringstream outS;
     for(int inx = inxStart; inx < argc; inx++)
     {
@@ -165,6 +201,14 @@ S connect_arguments(const int argc, char* argv[], const int inxStart)
 
 S connect_arguments_until(const int argc, char* argv[], const int inxStart, const S& sUntil)
 {
+//
+//  Connect arguments given by user starting with argument with a given index, unntil a certain argument
+//  is found.
+//
+//  Space is added between arguments.
+//  e.g.:
+//        ./hrsystem apply  Joe Doe  for F22 Pilot   start: 2, end 'for'  ---->   "Joe Doe"
+
     std::ostringstream outS;
     for(int inx = inxStart; inx < argc; inx++)
     {

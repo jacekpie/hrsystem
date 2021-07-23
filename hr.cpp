@@ -1,3 +1,7 @@
+/*
+ * This file contains implementation of the class with main HR system .
+ */
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -10,10 +14,14 @@ typedef fs::__cxx11::path CxxPath;          // ... short for Pathtype
 // Local include
 #include "hr.h"
 
-
 // Database service
 void HR::_process_db_line(const S& sLine)
 {
+//
+//  Function processes single text line from a database.
+//  If invocation of the line is understood it adds a job or a candidate to the system.
+//
+
     if(is_line_starting(sLine, "job"))
     {
         const auto job = std::make_shared<Job>(sLine);
@@ -29,11 +37,17 @@ void HR::_process_db_line(const S& sLine)
 
 void HR::_db_read_postprocessing()
 {
-    // Loop over all candidates and update candidates jobs info
+//
+// This function is executed after all the database is read into memory.
+// It updates jobs, i.e. it updates list of candidates for jobs.
+//
+
+    // Loop over all candidates
     for(const auto candidate: _vCandidates)
     {
         for(auto const& [job, status] : candidate->get_jobs())
         {
+            // Inform job that there is a candidate with a certain status
             job->candidate(candidate, status);
         }
     }
@@ -47,6 +61,10 @@ HR::~HR(){}
 
 uint HR::new_job(const S sPosition)
 {
+//
+// Build a new job with a given position name.
+// This is used when user creates a new job.
+//
     // Get the current number of jobs. This will be id of the new job
     const uint inx = _vJobs.size();
 
@@ -60,6 +78,10 @@ uint HR::new_job(const S sPosition)
 
 uint HR::new_candidate(const S sName)
 {
+//
+// Build a new candidate with a given name.
+// This is used when user creates a new candidate.
+//
     // Get the current number of candidates. This will be id of the new candidate
     const uint inx = _vCandidates.size();
 
@@ -73,6 +95,11 @@ uint HR::new_candidate(const S sName)
 
 SPtr_Candidate HR::find_candidate_by_id(const uint id) const
 {
+//
+// Search database for a candidate by its id.
+// Returns nullptr if not found.
+//
+
     for(const auto candidate: _vCandidates)
     {
         if(candidate->get_inx() == id)
@@ -87,6 +114,10 @@ SPtr_Candidate HR::find_candidate_by_id(const uint id) const
 
 SPtr_Candidate HR::find_candidate_by_name(const S& sName) const
 {
+//
+// Search database for a candidate by its name
+// Returns nullptr if not found.
+//
     for(const auto candidate: _vCandidates)
     {
         if(candidate->get_name() == sName)
@@ -101,6 +132,10 @@ SPtr_Candidate HR::find_candidate_by_name(const S& sName) const
 
 SPtr_Job HR::find_job_by_id(const uint id) const
 {
+//
+// Search of a job by its id
+// Returns nullptr if not found.
+//
     for(const auto job: _vJobs)
     {
         if(job->get_inx() == id)
@@ -115,6 +150,10 @@ SPtr_Job HR::find_job_by_id(const uint id) const
 
 SPtr_Job HR::find_job_by_position_name(const S& sName) const
 {
+//
+// Search of a job by its position name
+// Returns nullptr if not found.
+//
     for(const auto job: _vJobs)
     {
         if(job->get_position_name() == sName)
@@ -131,6 +170,10 @@ SPtr_Job HR::find_job_by_position_name(const S& sName) const
 //
 void HR::read_db(const S sDBFile)
 {
+//
+// This function reads HR system database of from a txt file.
+// It checks if a given file exists.
+//
     // Check if database file exists
     const CxxPath pathDB = fs::path(sDBFile);
     const bool dbexists = fs::is_regular_file(pathDB);
@@ -162,6 +205,10 @@ void HR::read_db(const S sDBFile)
 
 void HR::store_db(const S sDBFile)
 {
+//
+// This function stores HR system database in a txt file.
+// It overwrites the file.
+//
     // Open the db file
     std::ofstream dbFile;
     dbFile.open(sDBFile);
@@ -186,6 +233,9 @@ void HR::store_db(const S sDBFile)
 
 void HR::print_all() const
 {
+//
+// Print status of the whole database.
+//
     print_jobs();
     print_candidates();
 }
@@ -193,7 +243,10 @@ void HR::print_all() const
 
 void HR::print_jobs() const
 {
-    // IOf there are no jobs, print info about it, and quit
+//
+// Print all the jobs in the database.
+//
+    // If there are no jobs, print info about it, and quit
     const int iJobs = _vJobs.size();
     if(iJobs == 0)
     {
@@ -213,7 +266,10 @@ void HR::print_jobs() const
 
 void HR::print_candidates() const
 {
-    // IOf there are no candidates, print info about it, and quit
+//
+// Print all the candidates in the database.
+//
+    // If there are no candidates, print info about it, and quit
     const int iCandidates = _vCandidates.size();
     if(iCandidates == 0)
     {
